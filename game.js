@@ -45,20 +45,6 @@ var gameOfLife = {
   },
 
   setupBoardEvents: function() {
-    // each board cell has an CSS id in the format of: "x-y"
-    // where x is the x-coordinate and y the y-coordinate
-    // use this fact to loop through all the ids and assign
-    // them "on-click" events that allow a user to click on
-    // cells to setup the initial state of the game
-    // before clicking "Step" or "Auto-Play"
-
-    // clicking on a cell should toggle the cell between "alive" & "dead"
-    // for ex: an "alive" cell be colored "blue", a dead cell could stay white
-
-    // EXAMPLE FOR ONE CELL
-    // Here is how we would catch a click event on just the 0-0 cell
-    // You need to add the click event on EVERY cell on the board
-
     var onCellClick = function (e) {
       // QUESTION TO ASK YOURSELF: What is "this" equal to here?
 
@@ -72,20 +58,14 @@ var gameOfLife = {
       }
     };
 
-   //  var cell00 = document.getElementById('0-0');
-   //  cell00.onclick = onCellClick;
-
-   // for(var x=0; x<this.width; x++) {
-   //    for (var y=0; y<this.height; y++) {
-   //       var id = x + "-" + y;
-   //       document.getElementById(id).onclick = onCellClick;
-   //    }
-   // }
    this.forEachCell(function(cell) {
       cell.onclick = onCellClick;
    });
 
-
+   document.getElementById("step_btn").onclick = gameOfLife.step;
+   document.getElementById("play_btn").onclick = gameOfLife.enableAutoPlay;
+   document.getElementById("reset_btn").onclick = gameOfLife.resetRandom;
+   document.getElementById("clear_btn").onclick = gameOfLife.clearBoard;
   },
 
   step: function () {
@@ -116,8 +96,6 @@ var gameOfLife = {
             }
          }
       }
-      // var log = x + ", "+y+": "+aliveCount
-      // console.log(log)
       return aliveCount;
    }
 
@@ -133,10 +111,10 @@ var gameOfLife = {
             nextState = 'alive';
          }
       }
-      cell.setAttribute('next-status', nextState);
+      cell.setAttribute('data-next-status', nextState);
    }
    function setNextState(cell, x, y) {
-      if (cell.getAttribute('next-status') != cell.getAttribute('data-status')) {
+      if (cell.getAttribute('data-next-status') != cell.getAttribute('data-status')) {
          cell.onclick();
       }
    }
@@ -144,8 +122,6 @@ var gameOfLife = {
 
    gameOfLife.forEachCell(getNextState);
    gameOfLife.forEachCell(setNextState);
-
-
   },
 
   enableAutoPlay: function () {
@@ -174,7 +150,7 @@ var gameOfLife = {
      gameOfLife.disablePlaying();
      gameOfLife.forEachCell(assignRand);
      function assignRand(cell, x, y) {
-        var probability = 32;
+        var probability = 30;
         var rand = Math.floor(Math.random()*100);  // 0-99
         if(rand < probability) {
            // cell is alive
@@ -202,7 +178,3 @@ var gameOfLife = {
 
 
 gameOfLife.createAndShowBoard();
-document.getElementById("step_btn").onclick = gameOfLife.step;
-document.getElementById("play_btn").onclick = gameOfLife.enableAutoPlay;
-document.getElementById("reset_btn").onclick = gameOfLife.resetRandom;
-document.getElementById("clear_btn").onclick = gameOfLife.clearBoard;
