@@ -1,6 +1,6 @@
 var gameOfLife = {
-  width: 4,
-  height: 4,
+  width: 3,
+  height: 3,
   stepInterval: null,
 
   createAndShowBoard: function () {
@@ -115,14 +115,14 @@ var gameOfLife = {
       return aliveCount;
    }
    function getNextState (cell, x, y) {
-      var liveNeghbors = countLiveNeighbors(x,y);
+      var liveNeighbors = countLiveNeighbors(x,y);
       var nextState = 'dead'; // start as dead
       if (cell.getAttribute('data-status') == 'dead' ) {
-         if (liveNeghbors == 3) {
+         if (liveNeighbors == 3) {
             nextState = 'alive';
          }
       } else { // cell is alive
-         if (liveNeghbors == 2 || liveNeighbors == 3) {
+         if (liveNeighbors == 2 || liveNeighbors == 3) {
             nextState = 'alive';
          }
       }
@@ -150,4 +150,4 @@ var gameOfLife = {
 
 
 gameOfLife.createAndShowBoard();
-document.getElementById("play_btn").onclick = gameOfLife.step;
+document.getElementById("step_btn").onclick = gameOfLife.step;
