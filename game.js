@@ -1,7 +1,8 @@
 var gameOfLife = {
-  width: 12,
-  height: 12,
+  width: 24,
+  height: 24,
   stepInterval: null,
+  isPlaying: false,
 
   createAndShowBoard: function () {
     // create <table> element
@@ -151,9 +152,55 @@ var gameOfLife = {
     // Start Auto-Play by running the 'step' function
     // automatically repeatedly every fixed time interval
 
-  }
+    if( !gameOfLife.isPlaying) {
+      var interval = 250;
+      gameOfLife.playingInterval = setInterval(gameOfLife.step, interval);
+      gameOfLife.isPlaying = true;
+   } else { // clear playing
+      gameOfLife.disablePlaying();
+   }
+   },
+
+   disablePlaying: function () {
+      clearTimeout(gameOfLife.playingInterval);
+      gameOfLife.isPlaying = false;
+   },
+
+
+
+  resetRandom: function () {
+     gameOfLife.disablePlaying();
+     gameOfLife.forEachCell(assignRand);
+     function assignRand(cell, x, y) {
+        var probability = 15;
+        var rand = Math.floor(Math.random()*100);  // 0-99
+        if(rand < probability) {
+           // cell is alive
+           cell.className = "alive";
+           cell.setAttribute('data-status', 'alive');
+        }
+        else {
+           // cell is dead
+           cell.className = "dead";
+           cell.setAttribute('data-status', 'dead');
+        }
+     }
+ },
+
+ clearBoard: function() {
+    gameOfLife.disablePlaying();
+    gameOfLife.forEachCell(function(cell) {
+      if(cell.getAttribute('data-status') == 'alive') {
+         cell.onclick();
+      }
+   });
+}
+
 };
 
 
 gameOfLife.createAndShowBoard();
 document.getElementById("step_btn").onclick = gameOfLife.step;
+document.getElementById("play_btn").onclick = gameOfLife.enableAutoPlay;
+document.getElementById("reset_btn").onclick = gameOfLife.resetRandom;
+document.getElementById("clear_btn").onclick = gameOfLife.clearBoard;
