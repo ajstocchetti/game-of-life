@@ -156,6 +156,7 @@ var gameOfLife = {
       var interval = 250;
       gameOfLife.playingInterval = setInterval(gameOfLife.step, interval);
       gameOfLife.isPlaying = true;
+      document.getElementById('play_btn').innerHTML = "Pause";
    } else { // clear playing
       gameOfLife.disablePlaying();
    }
@@ -164,6 +165,7 @@ var gameOfLife = {
    disablePlaying: function () {
       clearTimeout(gameOfLife.playingInterval);
       gameOfLife.isPlaying = false;
+      document.getElementById('play_btn').innerHTML = "Play";
    },
 
 
@@ -172,7 +174,7 @@ var gameOfLife = {
      gameOfLife.disablePlaying();
      gameOfLife.forEachCell(assignRand);
      function assignRand(cell, x, y) {
-        var probability = 15;
+        var probability = 32;
         var rand = Math.floor(Math.random()*100);  // 0-99
         if(rand < probability) {
            // cell is alive
