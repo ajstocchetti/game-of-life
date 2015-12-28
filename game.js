@@ -1,6 +1,6 @@
 var gameOfLife = {
-  width: 24,
-  height: 24,
+  width: 50,
+  height: 30,
   stepInterval: null,
   isPlaying: false,
 
